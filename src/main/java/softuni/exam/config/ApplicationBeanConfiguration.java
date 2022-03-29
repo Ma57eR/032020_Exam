@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import softuni.exam.util.ValidationUtil;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 
@@ -27,18 +28,29 @@ public class ApplicationBeanConfiguration {
 
     @Bean
     public ModelMapper modelMapper() {
-       ModelMapper modelMapper = new ModelMapper();
-       
-       modelMapper.addConverter(new Converter<String, LocalDate>() {
+        ModelMapper modelMapper = new ModelMapper();
 
-           @Override
-           public LocalDate convert(MappingContext<String, LocalDate> mappingContext) {
-               return LocalDate.parse(mappingContext.getSource(),
-                       DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-           }
-       });
-       
-       return modelMapper;
+        modelMapper.addConverter(new Converter<String, LocalDate>() {
+
+            @Override
+            public LocalDate convert(MappingContext<String, LocalDate> mappingContext) {
+                return LocalDate.parse(mappingContext.getSource(),
+                        DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            }
+        });
+
+        modelMapper.addConverter(new Converter<String, LocalDateTime>() {
+
+            @Override
+            public LocalDateTime convert(MappingContext<String, LocalDateTime> mappingContext) {
+                return LocalDateTime
+                        .parse(mappingContext.getSource(),
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            }
+
+        });
+
+        return modelMapper;
     }
 
 }
