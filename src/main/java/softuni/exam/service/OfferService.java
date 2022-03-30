@@ -12,7 +12,7 @@ public interface OfferService {
 
     boolean areImported();
 
-    String readOffersFileContent() throws IOException;
+    String readOffersFileContent() throws IOException, JAXBException;
 	
 	String importOffers() throws IOException, JAXBException;
 }

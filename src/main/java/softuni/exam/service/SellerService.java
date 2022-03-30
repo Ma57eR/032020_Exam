@@ -16,4 +16,5 @@ public interface SellerService{
 
     String importSellers() throws IOException, JAXBException;
 
+    Seller findById(Long id);
 }

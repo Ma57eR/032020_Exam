@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Table(name = "offers")
+@Table(name = "offers", uniqueConstraints = @UniqueConstraint(columnNames = {"description", "addedOn"}))
 public class Offer extends BaseEntity {
     @Positive
     private BigDecimal price;

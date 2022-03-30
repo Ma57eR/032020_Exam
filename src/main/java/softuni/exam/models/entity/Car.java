@@ -5,11 +5,12 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "cars")
+@Table(name = "cars", uniqueConstraints = @UniqueConstraint(columnNames = {"make", "model", "kilometers"}))
 public class Car extends BaseEntity{
 
     @Column(length = 20)

@@ -70,7 +70,7 @@ public class ImportController extends BaseController {
     }
 
     @GetMapping("/offers")
-    public ModelAndView importOffers() throws IOException {
+    public ModelAndView importOffers() throws IOException, JAXBException {
         String teamsXmlFileContent = this.offerService.readOffersFileContent();
 
         return super.view("xml/import-offers", "offers", teamsXmlFileContent);

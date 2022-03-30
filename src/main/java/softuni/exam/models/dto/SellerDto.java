@@ -5,6 +5,7 @@ import softuni.exam.models.entity.Rating;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -28,7 +29,7 @@ public class SellerDto {
     private String email;
 
     @XmlElement(name = "rating")
-    @NotBlank
+    @NotNull
     private Rating rating;
 
     @XmlElement

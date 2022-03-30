@@ -3,6 +3,7 @@ package softuni.exam.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import softuni.exam.models.dto.ImportSellersDto;
+import softuni.exam.models.entity.Seller;
 import softuni.exam.repository.SellerRepository;
 import softuni.exam.service.SellerService;
 import softuni.exam.util.ValidationUtil;
@@ -12,6 +13,7 @@ import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 @Service
 public class SellerServiceImpl implements SellerService {
@@ -41,9 +43,32 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     public String importSellers() throws IOException, JAXBException {
+        StringBuilder sb = new StringBuilder();
+
         ImportSellersDto importSellersDto = xmlParser
                 .fromFile(XML_SELLER_FILE, ImportSellersDto.class);
 
-        return null;
+        importSellersDto.getSellers()
+                .stream()
+                .filter(sellerDto -> {
+                    boolean isValid = validationUtil.isValid(sellerDto);
+
+                    sb.append(isValid ? String.format("Successfully import seller %s - %s",
+                            sellerDto.getLastName(), sellerDto.getEmail())
+                            : "Invalid seller")
+                            .append(System.lineSeparator());
+                    return isValid;
+                })
+                .map(sellerDto -> modelMapper.map(sellerDto, Seller.class))
+                .forEach(sellerRepository::save);
+
+
+
+        return sb.toString();
+    }
+
+    @Override
+    public Seller findById(Long id) {
+        return sellerRepository.findById(id).orElse(null);
     }
 }
